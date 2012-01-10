@@ -1,0 +1,33 @@
+<div class="posts-nav">
+	<%- partial('public/posts-nav') %>
+</div>
+
+<div class="post-list">	
+	<% posts.forEach(function(post) { %>
+	<div class="post-full newsite">
+		<div class="comment-count"><h1>0</h1><p>评论</p></div>
+		<div class="summary">
+
+			<h4>
+			<a href="/post/id/<%= post.id %>" title="<%= post.title %>"><%= post.title %></a>
+			</h4>
+			<div>
+				<% categories.forEach(function(category) { %>
+					<% if(post.cat_id==category.id) { %>
+					<a class="category" href="/posts/<%= post.cat_id %>"><%= category.name %></a>
+					<% } %>
+				<% }) %>
+				<a class="author" href="/user/<%= post.user %>" title="查看fanlee的信息"><%= post.user %></a>
+				&nbsp;&nbsp;<span class="datetime">发表于<%= post.created_at %></span>
+
+			</div>
+		</div>
+	</div>
+	<% }) %>
+        <div class="paginator">
+		
+		<span class="disabled"><a href="/posts/page/">Pre page</a></span>
+		<span class="disabled"><a href="/posts/page/">Next page</a></span>
+		<span class="current-page">末页</span>
+	</div>
+</div>

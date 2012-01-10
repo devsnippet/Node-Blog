@@ -1,0 +1,30 @@
+<div class="posts-nav">
+	<%- partial('public/posts-nav') %>
+</div>
+
+<div class="post-list">	
+	<% posts.forEach(function(post) { %>
+	<div class="post-full newsite">
+		<div class="comment-count"><h1><%= post.comments_count %></h1><p>评论</p></div>
+		<div class="summary">
+
+			<h4>
+			<a href="/post/view/<%= post.cat_id %>/<%= post.id %><%= config.app_ext %>" title="<%= post.title %>"><%= post.title %></a>
+			</h4>
+			<div>
+
+				<a class="category" href="/posts/cat/<%= post.cat_id %><%= config.app_ext %>" title="所属分类：<%= post._category.name %>"><%= post._category.name %></a>
+
+				<a class="author" href="/user/<%= post.uid %><%= config.app_ext %>" title="查看<%= post._user.prename %>的信息"><%= post._user.prename %></a>
+				&nbsp;&nbsp;<span class="datetime">发表于<%= post.created_at.humanString() %></span>
+
+			</div>
+		</div>
+	</div>
+	<% }) %>
+        <div class="paginator">
+		<span class="disabled current-page"><%- PageList(pageList.cat, pageList.num, pageList.perpage, pageList.curpage, pageList.mpurl) %></span>
+	</div>
+</div>
+
+

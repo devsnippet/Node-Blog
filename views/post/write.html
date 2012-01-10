@@ -1,0 +1,97 @@
+<script type="text/javascript" src="/js/jquery.ata.js"></script>
+<script type="text/javascript" src="/js/jquery.placeholder.js"></script>
+<script type="text/javascript" src="/js/jquery.validate.js"></script>
+<script type="text/javascript" src="/js/validateme.js"></script>
+
+<script type="text/javascript" src="/markitup/jquery.markitup.js"></script>
+<script type="text/javascript" src="/markitup/sets/html/set.js"></script>
+<link rel="stylesheet" type="text/css" href="/markitup/skins/simple/style.css" />
+<link rel="stylesheet" type="text/css" href="/markitup/sets/html/style.css" />
+
+<script type="text/javascript">
+
+        $(document).ready(function(){
+
+            $("textarea").ata();
+
+            $('#postcontent').markItUp(mySettings,
+								{ 	root:'/markitup/skins/simple/',
+									previewAutoRefresh:false
+								}
+							);
+                $.get("/markitup/skins/simple", function(text) {
+                $("#postcontent").val(text);
+            });
+            
+            $('.toggle').click(function() {
+                if ($("#postcontent.markItUpEditor").length === 1) {
+                    $("#postcontent").markItUpRemove();
+                    $("span", this).text("Show Editor");
+                } else {
+                    $('#postcontent').markItUp(mySettings,
+                                        { 	root:'/markitup/skins/simple/',
+                                            previewAutoRefresh:false
+                                        });
+                        $.get("/markitup/skins/simple", function(text) {
+                            $("#postcontent").val(text);
+                        });
+                    $("span", this).text("Hidden Editor");
+                }
+                return false;
+            });
+
+        });
+
+        $('input[placeholder],textarea[placeholder]').placeholder();
+
+</script>
+<%- partial('public/success') %>
+<div class="page-signature">
+	<div>发布文章</div>
+</div>
+
+<form id="post" action="/post/save" method="post">
+
+	<dl class="zend_form"> 
+		<dt id="posttitle-label">
+			<input type="hidden" name="_method" value="put" />
+			<label for="posttitle" class="required">标题</label>
+		</dt> 
+		<dd id="posttitle-element"> 
+			<input type="text" name="post[title]" id="posttitle" value="" size="60" maxlength="48" class="required maxlength minlength">
+		</dd>
+		
+		<dt id="posturl-label">
+			<label for="posturl" class="optional">原链接</label>
+		</dt> 
+		<dd id="posturl-element"> 
+			<input type="text" name="post[url]" id="posturl" value="" size="60" maxlength="100" class="url maxlength minlength" placeholder="http://">
+		</dd> 
+		
+		<dt id="postcontent-label">
+			<label for="postcontent" class="optional">内容 【<a href="#" class="toggle"><span>Hidden Editor</span></a>】</label>
+		</dt> 
+		<dd id="postcontent-element">
+            <p><textarea name="post[content]" id="postcontent" cols="60" rows="20" class="required maxlength minlength"></textarea></p>
+        </dd>
+		<p></p>
+		<dt id="postcategory-label">
+			<label class="required">选择发布区</label>
+		</dt> 
+		<dd id="postcategory-element">
+			
+			<select name="post[category]" id="postcategory">
+				<% category.forEach(function(category) { %>
+				<option value="<%= category._id %>-<%= category.id %>" label="<%= category.name %>"><%= category.name %></option>
+				<% }) %>
+			</select>
+			
+		</dd> 
+		
+		<dt id="submit-label">&#160;</dt>
+		<dd id="submit-element"> 
+			<input type="hidden" name="csrf" value="<%= csrf %>" />
+			<input type="submit" name="submit" id="submit" value="发布文章">
+		</dd>
+	</dl>
+</form>

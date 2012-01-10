@@ -1,0 +1,35 @@
+        <div class="profile">
+        <div class="page-signature"><div>test</div></div>
+        <div class="user-operations">
+	<% if (typeof(session) != 'undefined' && session.auth.name == user.name) { %>
+	
+        <% }else{ %>
+	<form action="/inbox/compose" method="post">
+            <input type="hidden" name="_method" value="put"/>
+            <input type="hidden" name="to" value="<%= user.name %>"/>
+            <input type="hidden" name="toId" value="<%= user.uid %>"/>
+            <input type="hidden" name="from" value="profile"/>
+            <input type="hidden" name="csrf" value="<%= csrf %>" />
+            <input id="submit" type="submit" name="submit" value="发站内信"/>
+        </form>
+        <form action="/" method="post">
+                <input type="hidden" name="userid" value="1329"/>
+                <input id="submit" type="submit" name="submit" value="举报该用户"/>
+        </form>
+	<% } %>
+         </div>
+        <div class="community-stats">
+        <dl class="community-stats">
+        <dt>加入社区</dt>
+        <dd>2011-09-04 16:41:15</dd>
+        <dt>发表文章</dt>
+        <dd>2&nbsp;&nbsp;<a href="/">查看</a></dd>
+        <dt>发表评论</dt>
+        <dd>7&nbsp;&nbsp;<a href="/">查看</a></dd>
+        <dt>得到评论</dt>
+        <dd>16</dd>
+        <dt>总浏览量</dt>
+        <dd>999</dd>
+    </dl>
+    </div>
+   </div>

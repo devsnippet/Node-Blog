@@ -1,0 +1,12 @@
+<div class="aside">
+	<ul class="community-nav">
+		
+		<li><a href="/posts<%= config.app_ext %>">社区首页</a></li>
+		<% if (typeof(session) != 'undefined' && session.auth) { %>
+		<li class="current_zone"><a href="/user<%= config.app_ext %>" title="个人中心">个人中心</a></li>
+			<% if (session.auth.name == 'admin') { %>
+			<li class="current_zone"><a href="/category<%= config.app_ext %>" title="分类管理">分类管理</a></li>
+			<% } %>
+		<% } %>
+	</ul>
+</div>

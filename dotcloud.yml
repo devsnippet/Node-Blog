@@ -1,0 +1,5 @@
+server:
+  type: nodejs
+  approot: app
+db:
+  type: mongodb

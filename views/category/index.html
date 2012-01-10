@@ -1,0 +1,42 @@
+<script type="text/javascript" src="/js/jquery.validate.js"></script>
+<script type="text/javascript" src="/js/validateme.js"></script>
+<%- partial('public/success') %>
+<div class="page-signature"><div>分类管理</div></div>
+
+<div class="personal-edit">
+	<ul>
+		<!-- <li><a href="/category" title="分类信息列表">分类信息列表</a></li> -->
+		<li><a href="/category/add<%= config.app_ext %>" title="添加分类">添加分类</a></li>
+	</ul>
+</div>
+
+<div class="community-stats">
+	
+	<table>
+		<thead>
+			<tr>
+				<td>ID</td>
+				<td>Name</td>
+                <td>Type</td>
+				<td>Edit</td>
+			</tr>
+		</thead>
+		<!-- <tfoot>
+			<tr>
+				<td>Sum</td>
+				<td>7</td>
+			</tr>
+		</tfoot> -->
+		<tbody>
+			<% category.forEach(function(category) { %>
+			<tr>
+				<td><%= category.id %></td>
+				<td><%= category.name %></td>
+                <td><% if(category.type == 0){ %> 社区 <% }else if(category.type == 1){ %>博客<% } %></td>
+				<td> <a href="/category/edit/<%= category.id %><%= config.app_ext %>">修改</a> | <a>删除</a> </td>
+			</tr>
+			<% }) %>
+		</tbody>
+	</table>
+		
+</div>

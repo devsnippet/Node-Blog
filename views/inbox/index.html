@@ -1,0 +1,24 @@
+<%- partial('public/success') %>
+<%- partial('public/msg-nav') %>
+<ul class="inbox-index">
+	<% if(typeof(inboxes) == 'undefined' || inboxes.length === 0) { %>
+    <p>无</p>
+	<% }else{ %>
+	<% inboxes.forEach(function(inbox) { %>
+	<li>
+		<div>
+		    <span class="mail-title"><a href="/inbox/<%= topMsgSelect %>/view/<%= inbox.id %><%= config.app_ext %>" title="查看消息"><%= inbox.title %></a></span>
+		</div>
+		<p>
+		    <span class="mail-sender"><a href="/user/<%= inbox.from.uid %><%= config.app_ext %>" title="查看<%= inbox.from.name %>的信息"><%= inbox.from.name %></a></span>
+		    &nbsp;&nbsp;<span class="datetime"><%= inbox.date.timeSince() %></span>
+            &nbsp;&nbsp;<span class="datetime">回复</span>
+            &nbsp;&nbsp;<span class="datetime">删除</span>
+	       </p>
+        </li>
+        <% }) %>
+	<% } %>
+</ul>
+<div class="paginator">
+	<span class="disabled current-page"><%- PageList(pageList.cat, pageList.num, pageList.perpage, pageList.curpage, pageList.mpurl) %></span>
+</div>

@@ -1,0 +1,35 @@
+<%- partial('header') %>
+<script type="text/javascript" src="/js/jquery.validate.js"></script> 
+<script type="text/javascript" src="/js/validateme.js"></script>
+<%- partial('success') %>
+<div class="page-signature"><div>用户登录</div></div>
+<div class="auth">
+	<form id="signin" action="/user/signin" enctype="application/x-www-form-urlencoded" method="post">
+		<dl class="zend_form">
+			<dt id="uname-label">
+				<label for="uname" class="required">登录用户名</label>
+			</dt>
+			<dd id="uname-element">
+				<input type="text" name="uname" id="uname" value="" size="60" maxlength="24" placeholder="用户名仅支持字母或数字，长度不超过24个字符" class="required maxlength minlength"></dd>
+			
+			<dt id="password-label">
+				<label for="password" class="required">登录密码</label>
+			</dt>
+			<dd id="password-element">
+				<input type="password" name="password" id="password" value="" size="60" maxlength="20" class="required maxlength minlength">
+			</dd>
+
+
+			<dt id="submit-label">&#160;</dt>
+			<dd id="submit-element">
+				<input type="hidden" name="csrf" value="<%= csrf %>" />
+				<input type="submit" name="submit" id="submit" value="登录">
+			</dd>
+		</dl>
+	</form>
+</div>
+<div class="aside">
+    
+</div>
+
+<%- partial('footer') %>

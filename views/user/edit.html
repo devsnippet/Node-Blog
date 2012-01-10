@@ -1,0 +1,99 @@
+<link href="/css/jquery.datepick.css" media="screen" rel="stylesheet" type="text/css" >
+<script type="text/javascript" src="/js/jquery.datepick.min.js"></script> 
+<script type="text/javascript" src="/js/jquery.datepick-zh-CN.js"></script> 
+<script type="text/javascript" src="/js/location.js"></script> 
+<script type="text/javascript" src="/js/jquery.placeholder.js"></script> 
+<script type="text/javascript" src="/js/jquery.validate.js"></script> 
+<script type="text/javascript" src="/js/validateme.js"></script>
+
+<div class="page-signature">
+	<div>修改个人信息</div>
+</div>
+<form id="profile" action="/user/update" method="post">
+
+	<dl class="zend_form"> 
+
+		<dt id="name-label">
+			<label for="name" class="required">真实姓名</label>
+		</dt> 
+		<dd id="name-element"> 
+			<input type="text" name="user[prename]" id="name" value="<%= user.prename %>" size="60" maxlength="32" class="required maxlength minlength">
+		</dd> 
+		
+		
+		<!-- <dt id="email-label">
+			<label for="email" class="required">有效电邮</label>
+		</dt> 
+		<dd id="email-element"> 
+			<input type="text" name="user[mail]" id="email" value="<%= user.mail %>" size="60" class="required email">
+		</dd>  -->
+		
+		<dt id="birthday-label">
+			<label for="birthday" class="required">出生日期（以1988-08-12为格式）</label>
+		</dt> 
+		<dd id="birthday-element"> 
+			<input type="text" name="user[birthday]" id="birthday" value="<%= user.birthday %>" size="60" maxlength="16" class="required maxlength minlength">
+		</dd> 
+		
+		
+		<dt id="cellphone-label">
+			<label for="cellphone" class="required">手机号码</label>
+		</dt> 
+		<dd id="cellphone-element"> 
+			<input type="text" name="user[phone]" id="cellphone" value="<%= user.phone %>" maxlength="15" size="60" class="required digits maxlength minlength">
+		</dd> 
+		
+		<dt id="sex-label">
+			<label for="sex" class="required">性别</label>
+		</dt> 
+		<dd id="sex-element"> 
+			<select name="user[sex]" id="sex"> 
+			    <option value="male" label="男" <% if(user.sex == "male") { %> selected="selected" <% } %>>男</option> 
+			    <option value="female" label="女" <% if(user.sex == "female") { %> selected="selected" <% } %>>女</option> 
+			</select>
+		</dd> 
+		
+		<dt id="selectp-label">
+			<label for="selectp" class="required">现居省份</label>
+		</dt> 
+		<dd id="selectp-element"> 
+			<select name="user[province]" id="selectp" onchange="change_province(this.value);"> 
+			    
+			</select>
+		</dd> 
+		
+		<dt id="selectc-label">
+			<label for="selectc" class="required">现居城市</label>
+		</dt> 
+		<dd id="selectc-element"> 
+			<select name="user[city]" id="selectc"> 
+			    
+			</select>
+		</dd> 
+		
+		<dt id="submit-label">&#160;</dt>
+		<dd id="submit-element"> 
+			<input type="hidden" name="user[id]" value="<%= user._id %>"/>
+			<input type="hidden" name="csrf" value="<%= csrf %>" />
+			<input type="submit" name="submit" id="submit" value="修改">
+		</dd>
+	</dl>
+</form>
+<script type="text/javascript">
+        
+$("#birthday").datepick({yearRange: '1949:2011', dateFormat: 'yyyy-mm-dd'});
+$(document).ready(function(){
+	init();
+    
+	var location = {"province":"<%= user.province %>","city":"<%= user.city %>"};
+	var items = [];
+	$.each(location, function(key, val) {
+		items.push(val);
+	});
+	$('#selectp option[value=' + items[0] +']').attr("selected", "selected");
+	change_province(items[0])
+	$("#selectc option[value=" + items[1] + "]").attr("selected", "selected");
+
+});
+            
+</script>

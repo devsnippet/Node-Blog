@@ -1,0 +1,44 @@
+<!--消息提示-->
+<style>
+.notice_success {
+	background-color:#090;
+}
+.notice_error {
+	background-color:#900;
+}
+ul li {
+	padding:3px;
+}
+ul li:hover {
+	cursor:pointer;
+	/*background-color:#000;*/
+	color:#FFF;
+}
+</style>
+<% if (message.success.length > 0) { %>
+<script type="text/javascript"> 
+$(document).ready(function()
+{
+	jQuery.noticeAdd({
+		text: '<%= message.success %>',
+		stay: false,
+		type: 'notice_success'
+	});
+});
+</script>
+<!-- <div class="box success"><%= message.success %></div> -->
+<% } %>
+
+<% if (message.error.length > 0) { %>
+<script type="text/javascript"> 
+$(document).ready(function()
+{
+	jQuery.noticeAdd({
+		text: '<%= message.error %>',
+		stay: false,
+		type: 'notice_error'
+	});
+});
+</script>
+<!--     <div class="box error"><%= message.error %></div> -->
+<% } %>

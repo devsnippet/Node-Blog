@@ -1,0 +1,173 @@
+<%- partial('public/header') %>
+	<script type="text/javascript" src="/js/jquery.ata.js"></script> 
+	<script type="text/javascript" src="/js/jquery.validate.js"></script> 
+	<script type="text/javascript" src="/js/validateme.js"></script>
+
+     <script type="text/javascript" src="/markitup/jquery.markitup.js"></script>
+    <script type="text/javascript" src="/markitup/sets/html/set.js"></script>
+    <link rel="stylesheet" type="text/css" href="/markitup/skins/simple/style.css" />
+    <link rel="stylesheet" type="text/css" href="/markitup/sets/html/style.css" />
+    
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script type="text/javascript" src="/js/jquery.dimensions.pack.js"></script>
+	 <link rel="stylesheet" type="text/css" href="/css/css.css" />
+    <script type="text/javascript">
+
+	$(document).ready(function(){
+		$(window).scroll(function(){
+			if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+			   //alert("saassa");
+			   lastPostFunc();
+			}
+		}); 
+		function lastPostFunc() { 
+			$('div#paginator').html('<img src="/img/bigLoader.gif">');
+			var id = '<%= post.id %>';
+			var commentId = $(".comment:last").attr("id");
+			var csrf = '<%= csrf %>';
+			$.post("/post/comment/ajax",{ id: id, commentId: commentId, csrf: csrf },function(data){
+				if (data != "") {
+
+					$(".comment:last").after(data);
+					
+				}
+				$('div#paginator').empty();
+			});
+		}
+		
+		$("textarea").ata();
+
+		$('#replycontent').markItUp(mySettings,{root:'/markitup/skins/simple/',previewAutoRefresh:false});
+                $.get("/markitup/skins/simple", function(text) {$("#replycontent").val(text);});
+
+                $('.toggle').click(function() {
+                    if ($("#replycontent.markItUpEditor").length === 1) {
+                        $("#replycontent").markItUpRemove();
+                        $("span", this).text("Show Editor");
+                    } else {
+                        $('#replycontent').markItUp(mySettings,
+                                            { 	root:'/markitup/skins/simple/',
+                                                previewAutoRefresh:false
+                                            });
+                            $.get("/markitup/skins/simple", function(text) {
+                                $("#replycontent").val(text);
+                            });
+                        $("span", this).text("Hidden Editor");
+                    }
+                    return false;
+                });
+
+		$(".post-content-inner p").each(function(index) {
+
+			if($(this).html()=='\n') {
+
+				$(this).after("<br>");
+
+			}
+
+		});
+		
+	});
+			
+
+    </script>
+	<div class="broadpane">
+
+		<div class="posts-nav">
+
+			<%- partial('public/posts-nav') %>
+		</div>
+
+		<div class="post-comments-count">
+
+			<h1><a href="#comments"><%= post.comments_count %></a></h1><p>评论</p>
+
+			<div class="operation">
+				<form id="report" action="/community/report" method="post">
+					<input type="hidden" name="postid" value="158"/>
+					<input type="submit" id="submit" name="submit" value="举报"/>
+				</form>
+
+			</div>
+
+		</div>
+
+		<div class="post newsite">
+		
+			<div class="post-content">
+
+				<h1><%= post.title %></h1>
+				<ul class="post-statistics">
+					<li>发布于<%= post.created_at.humanString() %></li>
+					<li><a href="/user/<%= post.uid %><%= config.app_ext %>"><%= post._user.prename %></a></li>
+				</ul>
+				
+				<div class="post-url">来源：<a href="<%= post.link %>" target="_blank"><%= post.link %></a></div>
+
+				<div class="post-content-inner">
+					<p><%- post.content %></p>
+				</div>
+
+				<ul class="post-statistics">
+
+				</ul>
+
+			</div>
+		</div>
+
+		<% if (typeof(session) != 'undefined' && session.auth) { %>
+		<div class="comment-input">
+            <form id="reply"  action="/comment/create" method="post">
+				<dl class="zend_form"> 
+					<dt id="replycontent-label">&#160;</dt> 
+					<dd id="replycontent-element">
+						<input type="hidden" name="_method" value="put" />
+                        <a href="#" class="toggle"><span><%- partial('public/success') %></span></a>
+						<textarea name="reply[content]" id="replycontent" cols="60" rows="5" class="required maxlength minlength"></textarea>
+					</dd> 
+					
+					<dt id="submit-label">&#160;</dt>
+					<dd id="submit-element"> 
+						<input type="hidden" name="csrf" value="<%= csrf %>" />
+						<input type="submit" name="submit" id="submit" value="评论">
+					</dd> 
+					
+					<dt id="postid-label">&#160;</dt> 
+					<dd id="postid-element">
+						<input type="hidden" name="reply[parentId]" value="0" id="parentId">
+                        <input type="hidden" name="reply[catId]" value="<%= post.cat_id %>" id="catid">
+						<input type="hidden" name="reply[postId]" value="<%= post.id %>" id="postid">
+					</dd>
+				</dl>
+			</form>
+		</div>
+		<% } %>
+					
+		<div class="comments">
+			<% if(comments.length>0){ %>
+			
+			<% comments.forEach(function(comment) { %>
+			<div class="comment" id="<%= comment.id %>">
+				<div class="author-comment">
+					<a href="/user/<%= comment._user.uid %><%= config.app_ext %>"><%= comment._user.prename %></a>
+				</div>
+
+				<div class="comment-content">
+					<%- comment.content %>
+					<div class="datetime"><%= comment.date.timeSince() %>&nbsp;&nbsp;&nbsp;&nbsp;<span>refer&nbsp;&nbsp;&nbsp;&nbsp;replay</span></div>
+				</div>
+
+			</div>
+			<% }) %>
+			
+			
+			<% } else { %>
+			<div class="comments"><h2><a name="comments"></a>尚无评论</h2></div>
+			<% } %>
+			
+			<div class="paginator"> <span class="disabled">首页</span> <span class="current-page">1</span> <span class="disabled">末页</span> </div>
+		</div>
+
+	</div>
+
+<%- partial('public/footer') %>

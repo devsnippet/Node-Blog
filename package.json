@@ -1,0 +1,11 @@
+{
+  "name": "app",
+  "version": "0.0.1",
+  "dependencies": {
+    "ejs": "0.4.3",
+    "express": "2.4.6",
+    "mongoose": "2.0.2",
+    "formidable": "0.9.11"
+  }
+}
+

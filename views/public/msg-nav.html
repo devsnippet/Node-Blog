@@ -1,0 +1,5 @@
+<ul class="inbox-nav">
+    <li <% if(topMsgSelect=='getmsg'){ %>class="current-folder"<% } %>><a href="/inbox/getmsg<%= config.app_ext %>" title="收件箱">收件箱</a></li>
+    <li <% if(topMsgSelect=='sysmsg'){ %>class="current-folder"<% } %>><a href="/inbox/sysmsg<%= config.app_ext %>" title="系统消息">系统消息</a></li>
+    <li <% if(topMsgSelect=='sendmsg'){ %>class="current-folder"<% } %>><a href="/inbox/sendmsg<%= config.app_ext %>" title="发件箱">发件箱</a></li>
+</ul>

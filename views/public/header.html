@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="node,js,express,mongodb,javascript" >
+	<title>无忧node学习网</title>
+	<link href="/favicon.ico" rel="favicon" type="image/x-icon" >
+	<link href="/css/reset.css" media="screen" rel="stylesheet" type="text/css" >
+	<link href="/css/screen.css" media="screen" rel="stylesheet" type="text/css" >
+	<link href="/css/jquery.notice.css" media="screen" rel="stylesheet" type="text/css" >
+	<script type="text/javascript" src="/js/jquery-1.5.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.notice.js"></script> 
+	
+
+</head>
+
+<body>
+<div class="main">
+
+	<div class="header">
+	
+		<h1 class="heading"><a href="/" title="无忧nodejs学习网">无忧nodejs</a></h1>
+
+	</div>
+	
+	<ul class="home-nav">
+	
+		<li class="prime"><a href="/index<%= config.app_ext %>" title="无忧nodejs">首页</a>&nbsp;&nbsp;</li>
+		<li><a href="/posts<%= config.app_ext %>">社区</a>&nbsp;&nbsp;</li>
+		<li><a href="/blog<%= config.app_ext %>">博客</a>&nbsp;&nbsp;</li>
+		<% if (typeof(session) != 'undefined' && session.auth) { %>
+		
+		<li><a  href="/inbox<%= config.app_ext %>" title="站内信">站内信</a>&nbsp;&nbsp;</li>
+		<li><a href="/user<%= config.app_ext %>" title="个人中心"><%= session.auth.name %></a>&nbsp;&nbsp;</li>
+		
+		<li><a href="/logout<%= config.app_ext %>" title="退出">退出</a></li>
+		
+		<% } else { %>
+		
+		<li class="secondary"><a href="/signin<%= config.app_ext %>" title="登录">登录</a>&nbsp;&nbsp;</li>
+		<li class=""><a href="/signup<%= config.app_ext %>" title="注册">注册</a></li>
+		
+		<% } %>	
+
+	</ul>

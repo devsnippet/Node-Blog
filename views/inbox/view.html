@@ -1,0 +1,45 @@
+<script type="text/javascript" src="/js/jquery.ata.js"></script>
+<script type="text/javascript" src="/js/jquery.validate.js"></script>
+<script type="text/javascript" src="/js/validateme.js"></script>
+
+<%- partial('public/msg-nav') %>
+<div class="inbox-signature"><div>与<%= inbox.from.name %>的对话</div></div>
+    <ul class="inbox-list">
+         <li>
+            <div class="mail-sender"><a href="/user/<%= inbox.from.uid %><%= config.app_ext %>" title="查看<%= inbox.from.name %>的信息"><%= inbox.from.name %></a>&nbsp;&nbsp;</div>
+            <div class="mail-content">
+                <p><%- inbox.msg %></p>
+                <div><span class="datetime"><%= inbox.date.humanString() %></span></div>
+            </div>
+
+            <form id="delete" action="/inbox/delete" method="post">
+                <input type="hidden" name="message" value="1521" />
+                <input type="hidden" name="from_id" value="1954"/>
+                <input id="submit" type="submit" name="submit" value="删除"/>
+            </form>
+        </li>
+
+         <li>
+            <div class="mail-sender">me&nbsp;&nbsp;</div>
+            <div class="mail-content">
+                <p>的司法所答复</p>                <div><span class="datetime">2011-09-13 15:24:07</span></div>
+            </div>
+
+            <form id="delete" action="/inbox/delete" method="post">
+                <input type="hidden" name="message" value="1523" />
+                <input type="hidden" name="from_id" value="1954"/>
+                <input id="submit" type="submit" name="submit" value="删除"/>
+            </form>
+        </li>
+
+     </ul>
+     <form id="reply" action="/inbox/reply/" method="post">
+        <textarea name="replycontent" cols="60" rows="5"></textarea>
+        <input type="hidden" name="from_id" value="1954"/>
+        <input id="submit" type="submit" name="submit" value="回复"/>
+     </form>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("textarea").ata();
+    });
+ </script>

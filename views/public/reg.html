@@ -1,0 +1,133 @@
+<%- partial('header') %>
+<link href="/css/jquery.datepick.css" media="screen" rel="stylesheet" type="text/css" >
+<script type="text/javascript" src="/js/jquery.datepick.min.js"></script> 
+<script type="text/javascript" src="/js/jquery.datepick-zh-CN.js"></script> 
+<script type="text/javascript" src="/js/location.js"></script> 
+<script type="text/javascript" src="/js/jquery.placeholder.js"></script> 
+<script type="text/javascript" src="/js/jquery.validate.js"></script> 
+<script type="text/javascript" src="/js/validateme.js"></script>
+<%- partial('success') %>
+<div class="page-signature"><div>用户注册</div></div>
+
+<div class="auth">
+
+	<div class="notice">以下为必填选项, 请务必保持真实信息, 否则将被直接删帐号, 不要浪费彼此宝贵的时间</div>
+	
+	<form id="signup" action="/user/create" enctype="application/x-www-form-urlencoded" method="post">
+	
+		<dl class="zend_form">
+	
+			<dt id="uname-label">
+				<label for="uname" class="required">登录用户名</label>
+			</dt>
+			<dd id="uname-element">
+				<input type="hidden" name="_method" value="put" />
+				
+				<input type="text" name="uname" id="uname" value="" size="60" maxlength="24" placeholder="用户名仅支持字母或数字，长度不超过24个字符" class="required maxlength minlength">
+			</dd>
+
+
+			<dt id="password-label">
+				<label for="password" class="required">登录密码</label>
+			</dt>
+			<dd id="password-element">
+				<input type="password" name="password" id="password" value="" size="60" maxlength="20" class="required maxlength minlength">
+			</dd>
+	
+			<dt id="name-label">
+				<label for="name" class="required">真实姓名</label>
+			</dt>
+			<dd id="name-element">
+				<input type="text" name="name" id="name" value="" size="60" maxlength="32" class="required maxlength minlength">
+			</dd>
+	
+			<dt id="email-label">
+				<label for="email" class="required">有效电邮</label>
+			</dt>
+			<dd id="email-element">
+				<input type="text" name="email" id="email" value="" size="60" class="required email">
+			</dd>
+
+			<dt id="cellphone-label">
+				<label for="cellphone" class="required">手机号码</label></dt> 
+			<dd id="cellphone-element"> 
+				<input type="text" name="cellphone" id="cellphone" value="" maxlength="15" size="60" class="required digits maxlength minlength">
+			</dd> 
+
+			<dt id="birthday-label">
+				<label for="birthday" class="required">出生日期（以1988-08-12为格式）</label>
+			</dt>
+			<dd id="birthday-element">
+				<input type="text" name="birthday" id="birthday" value="" size="60" maxlength="16" class="required maxlength minlength">
+			</dd>
+			
+			<dt id="sex-label">
+				<label for="sex" class="required">性别</label>
+			</dt>
+			<dd id="sex-element">
+				<select name="sex" id="sex">
+				    <option value="male" label="男">男</option>
+				    <option value="female" label="女">女</option>
+				</select>
+			</dd>
+
+			<dt id="selectp-label">
+				<label for="selectp" class="required">现居省份</label>
+			</dt>
+			<dd id="selectp-element">
+				<select name="selectp" id="selectp" onchange="change_province(this.value);">
+				</select>
+			</dd>
+
+			<dt id="selectc-label">
+				<label for="selectc" class="required">现居城市</label>
+			</dt>
+			<dd id="selectc-element">
+				<select name="selectc" id="selectc">
+				</select>
+			</dd>
+
+
+			<dt id="submit-label">&#160;</dt>
+			<dd id="submit-element">
+				<input type="hidden" name="csrf" value="<%= csrf %>" />
+				<input type="submit" name="submit" id="submit" value="注册">
+			</dd>
+		</dl>
+	</form>
+</div>
+<script type="text/javascript">
+    init();
+    $("#birthday").datepick({yearRange: '1949:2000', dateFormat: 'yyyy-mm-dd'});
+    $("#uname").blur(function() {
+        if($("#uname").val()!="") {
+            $.getJSON("/user/check/name/"+$("#uname").val()+"<%= config.app_ext %>", function(data){
+                if(data.exit==false) {
+                    $('span').remove();
+                    $("#uname").closest("dd").append("<span class='uname_error'>&nbsp;&nbsp;抱歉，此名有主了</span>");
+                } else {
+                    $('span').remove();
+                    $("#uname").closest("dd").append("<span class='uname_success'></span>");
+                }
+            });
+        }
+    });
+    $("#email").blur(function() {
+        if($("#email").val()!="") {
+            $.getJSON("/user/check/mail/"+$("#email").val()+"<%= config.app_ext %>", function(data){
+                if(data.exit==false) {
+                    $('span').remove();
+                    $("#email").closest("dd").append("<span class='uname_error'>&nbsp;&nbsp;抱歉，此邮箱已经被使用了</span>");
+                } else {
+                    $('span').remove();
+                    $("#email").closest("dd").append("<span class='uname_success'></span>");
+                }
+            });
+        }
+    });
+        
+</script>
+<div class="aside">
+    
+</div>
+<%- partial('footer') %>

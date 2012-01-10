@@ -1,0 +1,40 @@
+<script type="text/javascript" src="/js/jquery.validate.js"></script>
+<script type="text/javascript" src="/js/validateme.js"></script>
+<%- partial('public/success') %>
+<div class="page-signature"><div><%= session.auth.name %></div></div>
+
+<div class="personal-edit">
+	<ul>
+		<li><a href="/user/info/edit<%= config.app_ext %>" title="修改个人信息">修改个人信息</a></li>
+		<li><a href="/user/pass/edit<%= config.app_ext %>" title="修改密码">修改密码</a></li>
+	</ul>
+</div>
+
+<div class="community-stats">
+	<dl class="community-stats">
+		<dt>加入社区</dt>
+		<dd><%= user.created_at.humanString() %></dd>
+		<dt>发表文章</dt>
+		<dd>0&nbsp;&nbsp;</dd>
+		<dt>发表评论</dt>
+		<dd>0&nbsp;&nbsp;</dd>
+
+	</dl>
+
+	<dl class="community-stats">
+		<dt>注册邮箱</dt>
+		<dd><%= user.mail %></dd>
+		<dt>真实姓名</dt>
+		<dd><%= user.prename %></dd>
+		<dt>登录用户名</dt>
+
+		<dd><%= user.name %></dd>
+		<dt>出生日期</dt>
+		<dd><%= user.birthday %>&nbsp;</dd>
+		<dt>现居地</dt>
+		<dd><%= user.province %>::<%= user.city %>&nbsp;</dd>
+		<dt>手机号</dt>
+
+		<dd><%= user.phone %>&nbsp;</dd>
+	</dl>
+</div>

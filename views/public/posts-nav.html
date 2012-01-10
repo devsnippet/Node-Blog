@@ -1,0 +1,11 @@
+<ul class="category-list">
+	<li class="index <% if(topSelect=='all'){ %>current-category <% } %>"><a href="/posts<%= config.app_ext %>" title="所有文章">所有文章</a></li>
+    <% categories.forEach(function(category) { %>
+	<li class="newsite <% if(topSelect==category.id){ %>current-category <% } %>"><a href="/posts/cat/<%= category.id %><%= config.app_ext %>" title="<%= category.name %>"><%= category.name %></a></li>
+	<% }) %>
+	<% if (typeof(session) != 'undefined' && session.auth) { %>
+	<!--<li class="index <% if(topSelect==0 ){ %>current-category <% } %>"><a href="/posts/my/1<%= config.app_ext %>" title="我的文章">我的文章</a></li>-->
+	<li class="publish"><div class="community-new"><a href="/post/write<%= config.app_ext %>" title="发布文章">+发布文章</a></div></li>
+	<% } %>
+	
+</ul>
